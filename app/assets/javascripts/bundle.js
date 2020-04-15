@@ -86,67 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./frontend/actions/chirps.js":
-/*!************************************!*\
-  !*** ./frontend/actions/chirps.js ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.unLikeChirp = exports.likeChirp = exports.fetchChirps = exports.RECEIVE_SINGLE_CHIRP = exports.RECEIVE_CHIRPS = undefined;
-
-var _chirps = __webpack_require__(/*! ../utils/chirps */ "./frontend/utils/chirps.js");
-
-var RECEIVE_CHIRPS = exports.RECEIVE_CHIRPS = 'RECEIVE_CHIRPS';
-var RECEIVE_SINGLE_CHIRP = exports.RECEIVE_SINGLE_CHIRP = 'RECEIVE_SINGLE_CHIRP';
-
-
-var receiveChirps = function receiveChirps(chirps) {
-  return {
-    type: RECEIVE_CHIRPS,
-    chirps: chirps
-  };
-};
-
-var receiveSingleChirp = function receiveSingleChirp(chirp) {
-  return {
-    type: RECEIVE_SINGLE_CHIRP,
-    chirp: chirp
-  };
-};
-
-var fetchChirps = exports.fetchChirps = function fetchChirps() {
-  return function (dispatch) {
-    return (0, _chirps.getChirps)().then(function (chirps) {
-      return dispatch(receiveChirps(chirps));
-    });
-  };
-};
-
-var likeChirp = exports.likeChirp = function likeChirp(id) {
-  return function (dispatch) {
-    return (0, _chirps.postLikeToChirp)(id).then(function (chirp) {
-      return dispatch(receiveSingleChirp(chirp));
-    });
-  };
-};
-
-var unLikeChirp = exports.unLikeChirp = function unLikeChirp(id) {
-  return function (dispatch) {
-    return (0, _chirps.deleteLikeFromChirp)(id).then(function (chirp) {
-      return dispatch(receiveSingleChirp(chirp));
-    });
-  };
-};
-
-/***/ }),
-
 /***/ "./frontend/actions/session.js":
 /*!*************************************!*\
   !*** ./frontend/actions/session.js ***!
@@ -276,13 +215,17 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _route_util = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+
 var _splash = __webpack_require__(/*! ./splash */ "./frontend/components/splash.jsx");
 
 var _splash2 = _interopRequireDefault(_splash);
 
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+var _addTutor = __webpack_require__(/*! ./tutors/addTutor */ "./frontend/components/tutors/addTutor.js");
 
-var _route_util = __webpack_require__(/*! ../utils/route_util */ "./frontend/utils/route_util.jsx");
+var _addTutor2 = _interopRequireDefault(_addTutor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -290,7 +233,8 @@ exports.default = function () {
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _splash2.default })
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _splash2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/add-tutor', component: _addTutor2.default })
   );
 };
 
@@ -357,22 +301,33 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
   return _react2.default.createElement(
-    'h1',
+    'div',
     null,
-    'Hannah\'s Tutoring Service'
+    _react2.default.createElement(
+      'h1',
+      null,
+      'Hannah\'s Tutoring Service'
+    ),
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/add-tutor' },
+      'Add Tutor'
+    )
   );
 };
 
 /***/ }),
 
-/***/ "./frontend/reducers/chirps.js":
-/*!*************************************!*\
-  !*** ./frontend/reducers/chirps.js ***!
-  \*************************************/
+/***/ "./frontend/components/tutors/addTutor.js":
+/*!************************************************!*\
+  !*** ./frontend/components/tutors/addTutor.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -380,31 +335,83 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
-var _chirps = __webpack_require__(/*! ../actions/chirps */ "./frontend/actions/chirps.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments[1];
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  Object.freeze(state);
-  switch (action.type) {
-    case _chirps.RECEIVE_CHIRPS:
-      var chirps = {};
-      action.chirps.forEach(function (chirp) {
-        chirps[chirp.id] = chirp;
-      });
-      return chirps;
-    case _chirps.RECEIVE_SINGLE_CHIRP:
-      return Object.assign({}, state, _defineProperty({}, action.chirp.id, action.chirp));
-    default:
-      return state;
-  }
-};
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TutorForm = function (_React$Component) {
+    _inherits(TutorForm, _React$Component);
+
+    function TutorForm(props) {
+        _classCallCheck(this, TutorForm);
+
+        var _this = _possibleConstructorReturn(this, (TutorForm.__proto__ || Object.getPrototypeOf(TutorForm)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(TutorForm, [{
+        key: 'handleSubmit',
+        value: function handleSubmit(e) {
+            e.preventDefault();
+            this.props.createPost(newPost);
+            this.setState({
+                body: ''
+            });
+        }
+    }, {
+        key: 'update',
+        value: function update(property) {
+            var _this2 = this;
+
+            return function (e) {
+                return _this2.setState(_defineProperty({}, property, e.currentTarget.value));
+            };
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            //debugger;
+            return _react2.default.createElement(
+                'form',
+                { onSubmit: this.handleSubmit.bind(this) },
+                _react2.default.createElement(
+                    'label',
+                    null,
+                    'Name',
+                    _react2.default.createElement('input', { type: 'text' })
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { type: 'submit' },
+                    'Submit'
+                )
+            );
+        }
+    }]);
+
+    return TutorForm;
+}(_react2.default.Component);
+
+;
+
+exports.default = TutorForm;
 
 /***/ }),
 
@@ -424,15 +431,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
 
-var _chirps = __webpack_require__(/*! ./chirps */ "./frontend/reducers/chirps.js");
-
-var _chirps2 = _interopRequireDefault(_chirps);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = (0, _redux.combineReducers)({
-  chirps: _chirps2.default
-});
+exports.default = (0, _redux.combineReducers)({});
 
 /***/ }),
 
@@ -573,43 +572,6 @@ var thunk = function thunk(_ref) {
 };
 
 exports.default = thunk;
-
-/***/ }),
-
-/***/ "./frontend/utils/chirps.js":
-/*!**********************************!*\
-  !*** ./frontend/utils/chirps.js ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var getChirps = exports.getChirps = function getChirps() {
-  return $.ajax({
-    url: '/api/chirps'
-  });
-};
-
-var postLikeToChirp = exports.postLikeToChirp = function postLikeToChirp(id) {
-  return $.ajax({
-    url: '/api/likes',
-    method: 'POST',
-    data: { id: id }
-  });
-};
-
-var deleteLikeFromChirp = exports.deleteLikeFromChirp = function deleteLikeFromChirp(id) {
-  return $.ajax({
-    url: '/api/likes',
-    method: 'DELETE',
-    data: { id: id }
-  });
-};
 
 /***/ }),
 
